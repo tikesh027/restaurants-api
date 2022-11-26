@@ -110,3 +110,17 @@ exports.updateRestaurantById = (req, res, next) => {
         res.status(500).send('Some error occured while fetching the Restaurant.');
     });
 }
+
+exports.deleteRestaurantById = (req, res, next) => {
+    const restaurantId = req.params.id;
+    Restaurant.findByIdAndDelete(restaurantId).then((result)=>{
+        const responseBody = {
+            restaurant: result,
+            message: 'Restaurant deleted successfully',
+        };
+        res.status(200).send(responseBody);
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('Some error occured while deleting the Restaurant');
+    });
+}
