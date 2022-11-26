@@ -76,3 +76,37 @@ exports.getRestaurantByRating = (req, res, next) => {
         res.status(500).send('Some error occured while fetching the Restaurant.');
     });
 }
+
+exports.updateRestaurantById = (req, res, next) => {
+    const restaurantId = req.params.id;
+    if(!Object.keys(req.body).length){
+        const responseBody = {
+            message: 'Restaurant Data is required'
+        }
+        res.status(400).send(responseBody);
+        return;
+    }
+    const { name, description, category, imageURL, location, phone, rating } = req.body;
+    console.log(req.body);
+
+    Restaurant.updateOne(
+        { _id: restaurantId },
+        { name, description, category, imageURL, location, phone, rating }
+    ).then((result) => {
+        if(result.matchedCount === 0){
+            const responseBody = {
+                message: 'No Restaurant found for given ID'
+            }
+            res.status(200).send(responseBody);
+            return;
+        }
+        if(!result.acknowledged){
+            res.status(500).send('Some error occured while fetching the Restaurant');
+            return;
+        }
+        res.status(200).send(result);
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('Some error occured while fetching the Restaurant.');
+    });
+}
