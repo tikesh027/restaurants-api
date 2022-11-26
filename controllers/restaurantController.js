@@ -66,3 +66,13 @@ exports.getRestaurantById = (req, res, next) => {
         res.status(500).send('Some error occured while fetching the Restaurant.');
     });
 }
+
+exports.getRestaurantByRating = (req, res, next) => {
+    const rating = req.params.ratingValue;
+    Restaurant.find({ rating: { $gte: rating } }).then((result) => {
+        res.status(404).send(result);
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('Some error occured while fetching the Restaurant.');
+    });
+}
