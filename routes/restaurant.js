@@ -10,6 +10,7 @@ router.get('/api/restaurant/:id',restaurantController.getRestaurantById);
 router.get('/api/restaurant/rating/:ratingValue', restaurantController.getRestaurantByRating);
 router.put('/api/restaurant/:id', restaurantController.updateRestaurantById);
 router.delete('/api/restaurant/:id', restaurantController.deleteRestaurantById);
+router.delete('/api/restaurant/', restaurantController.deleteAllRestaurants);
 
 
 

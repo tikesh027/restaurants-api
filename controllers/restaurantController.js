@@ -124,3 +124,20 @@ exports.deleteRestaurantById = (req, res, next) => {
         res.status(500).send('Some error occured while deleting the Restaurant');
     });
 }
+
+exports.deleteAllRestaurants = (req, res, next) => {
+    Restaurant.deleteMany().all().then((result) => {
+        const responseBody = {
+            restaurant: result,
+            message: 'Restaurants deleted successfully',
+        };
+        if(!result.acknowledged){
+            res.status(500).send('Some error occured while deleting the Restaurants');
+            return;
+        }
+        res.status(200).send(responseBody);
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('Some error occured while deleting the Restaurants');
+    });
+}
