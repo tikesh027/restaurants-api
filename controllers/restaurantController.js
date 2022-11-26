@@ -49,3 +49,20 @@ exports.getRestaurantByCategory = (req, res, next) => {
         res.status(500).send('Some error occured while fetching the Restaurant.');
     });
 }
+
+exports.getRestaurantById = (req, res, next) => {
+    const restaurantId = req.params.id;
+    Restaurant.findById(restaurantId).then((result) => {
+        if(!result){
+            const responseBody = {
+                message: 'No Restaurant found with the given id'
+            }
+            res.status(404).send(responseBody);
+            return;
+        }
+        res.status(200).send(result);
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('Some error occured while fetching the Restaurant.');
+    });
+}
