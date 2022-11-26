@@ -39,3 +39,13 @@ exports.getCategoriesList = (req, res, next) => {
         res.status(500).send('Some error occured while fetching the Restaurant.');
     });
 }
+
+exports.getRestaurantByCategory = (req, res, next) => {
+    const categoryName = req.params.categoryName;
+    Restaurant.find({ category: categoryName }).then((result) => {
+        res.status(200).send(result);
+    }).catch((error) => {
+        console.log(error);
+        res.status(500).send('Some error occured while fetching the Restaurant.');
+    });
+}
