@@ -2,6 +2,12 @@ const Restaurant = require('../models/restaurant');
 
 exports.addRestaurant = (req, res, next) => {
     const { name, description, category, imageURL, location, phone, rating } = req.body;
+    if(Object.keys(req.body).length === 0){
+        res.status(500).send({
+            message: 'Content cannot be empty'
+        });
+        return;
+    }
     const restaurant = new Restaurant({
         category,
         description,
@@ -24,10 +30,10 @@ exports.getAllRestaurants = (req, res, next) => {
             restaurants: result,
             message: 'Restaurants fetched successfully.'
         }
-        console.log(responseBody);
         res.status(200).send(responseBody);
     }).catch((error) => {
-        res.status(500).send(error.message);
+        console.log(error);
+        res.status(500).send('Some error occured while fetching the Restaurants');
     });
 }
 
@@ -46,7 +52,7 @@ exports.getRestaurantByCategory = (req, res, next) => {
         res.status(200).send(result);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while fetching the Restaurant.');
+        res.status(500).send('Some error occurred while fetching Categories');
     });
 }
 
