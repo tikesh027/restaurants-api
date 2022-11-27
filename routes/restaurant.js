@@ -12,6 +12,4 @@ router.put('/api/restaurant/:id', restaurantController.updateRestaurantById);
 router.delete('/api/restaurant/:id', restaurantController.deleteRestaurantById);
 router.delete('/api/restaurant/', restaurantController.deleteAllRestaurants);
 
-
-
 module.exports = router;

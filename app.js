@@ -6,15 +6,10 @@ const express = require('express');
 const app = express();
 const restaurantRoutes = require('./routes/restaurant');
 
-const rawBodySaver = function (req, res, buf, encoding) {
-    if (buf && buf.length) {
-      req.rawBody = buf.toString(encoding || 'utf8');
-    }
-}
 
-app.use(bodyParser.json({ verify: rawBodySaver }));
-app.use(bodyParser.urlencoded({ verify: rawBodySaver, extended: true }));
-app.use(bodyParser.raw({ verify: rawBodySaver, type: '*/*' }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.raw());
 app.use(restaurantRoutes);
 
 mongoose.connect(MONGODB_URI)
