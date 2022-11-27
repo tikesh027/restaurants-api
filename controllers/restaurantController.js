@@ -3,7 +3,7 @@ const Restaurant = require('../models/restaurant');
 exports.addRestaurant = (req, res, next) => {
     const { name, description, category, imageURL, location, phone, rating } = req.body;
     if(Object.keys(req.body).length === 0){
-        res.status(500).send({
+        res.status(500).json({
             message: 'Content cannot be empty'
         });
         return;
@@ -18,9 +18,9 @@ exports.addRestaurant = (req, res, next) => {
         rating
     });
     restaurant.save().then((result) => {
-        res.status(200).send(result);
+        res.status(200).json(result);
     }).catch((error) => {
-        res.status(500).send(error.message);
+        res.status(500).json(error.message);
     });
 }
 
@@ -30,29 +30,29 @@ exports.getAllRestaurants = (req, res, next) => {
             restaurants: result,
             message: 'Restaurants fetched successfully.'
         }
-        res.status(200).send(responseBody);
+        res.status(200).json(responseBody);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while fetching the Restaurants');
+        res.status(500).json('Some error occured while fetching the Restaurants');
     });
 }
 
 exports.getCategoriesList = (req, res, next) => {
     Restaurant.find().distinct('category').then((result) => {
-        res.status(200).send(result);
+        res.status(200).json(result);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while fetching the Restaurant.');
+        res.status(500).json('Some error occured while fetching the Restaurant.');
     });
 }
 
 exports.getRestaurantByCategory = (req, res, next) => {
     const categoryName = req.params.categoryName;
     Restaurant.find({ category: categoryName }).then((result) => {
-        res.status(200).send(result);
+        res.status(200).json(result);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occurred while fetching Categories');
+        res.status(500).json('Some error occurred while fetching Categories');
     });
 }
 
@@ -63,23 +63,23 @@ exports.getRestaurantById = (req, res, next) => {
             const responseBody = {
                 message: 'No Restaurant found with the given id'
             }
-            res.status(404).send(responseBody);
+            res.status(404).json(responseBody);
             return;
         }
-        res.status(200).send(result);
+        res.status(200).json(result);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while fetching the Restaurant.');
+        res.status(500).json('Some error occured while fetching the Restaurant.');
     });
 }
 
 exports.getRestaurantByRating = (req, res, next) => {
     const rating = req.params.ratingValue;
     Restaurant.find({ rating: { $gte: rating } }).then((result) => {
-        res.status(404).send(result);
+        res.status(404).json(result);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while fetching the Restaurant.');
+        res.status(500).json('Some error occured while fetching the Restaurant.');
     });
 }
 
@@ -89,7 +89,7 @@ exports.updateRestaurantById = (req, res, next) => {
         const responseBody = {
             message: 'Restaurant Data is required'
         }
-        res.status(400).send(responseBody);
+        res.status(400).json(responseBody);
         return;
     }
     const { name, description, category, imageURL, location, phone, rating } = req.body;
@@ -103,20 +103,20 @@ exports.updateRestaurantById = (req, res, next) => {
             const responseBody = {
                 message: 'No Restaurant found for given ID'
             }
-            res.status(200).send(responseBody);
+            res.status(200).json(responseBody);
             return;
         }
         if(!result.acknowledged){
-            res.status(500).send('Some error occured while fetching the Restaurant');
+            res.status(500).json('Some error occured while fetching the Restaurant');
             return;
         }
         const responseBody = {
             message: "Restaurant updated successfully."
         }
-        res.status(200).send(responseBody);
+        res.status(200).json(responseBody);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while fetching the Restaurant.');
+        res.status(500).json('Some error occured while fetching the Restaurant.');
     });
 }
 
@@ -127,10 +127,10 @@ exports.deleteRestaurantById = (req, res, next) => {
             restaurant: result,
             message: 'Restaurant deleted successfully',
         };
-        res.status(200).send(responseBody);
+        res.status(200).json(responseBody);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while deleting the Restaurant');
+        res.status(500).json('Some error occured while deleting the Restaurant');
     });
 }
 
@@ -141,12 +141,12 @@ exports.deleteAllRestaurants = (req, res, next) => {
             message: 'Restaurants deleted successfully',
         };
         if(!result.acknowledged){
-            res.status(500).send('Some error occured while deleting the Restaurants');
+            res.status(500).json('Some error occured while deleting the Restaurants');
             return;
         }
-        res.status(200).send(responseBody);
+        res.status(200).json(responseBody);
     }).catch((error) => {
         console.log(error);
-        res.status(500).send('Some error occured while deleting the Restaurants');
+        res.status(500).json('Some error occured while deleting the Restaurants');
     });
 }
