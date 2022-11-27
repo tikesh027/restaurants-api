@@ -110,7 +110,10 @@ exports.updateRestaurantById = (req, res, next) => {
             res.status(500).send('Some error occured while fetching the Restaurant');
             return;
         }
-        res.status(200).send(result);
+        const responseBody = {
+            message: "Restaurant updated successfully."
+        }
+        res.status(200).send(responseBody);
     }).catch((error) => {
         console.log(error);
         res.status(500).send('Some error occured while fetching the Restaurant.');
